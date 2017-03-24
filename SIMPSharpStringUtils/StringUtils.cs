@@ -57,14 +57,46 @@ namespace SimplSharpStringUtils
 
             return string.Empty;
         }
-        
+
         public string JSONAttributes(String body, String desiredAttribute)
         {
             try
             {
-                JObject jsonObj = JsonConvert.DeserializeObject(body) as JObject;
-                JEnumerable<JToken> children = jsonObj.Children();
-                return children[desiredAttribute].ToString();
+                string values = "";
+                //JObject jsonObj = JsonConvert.DeserializeObject(body) as JObject;
+                //JEnumerable<JToken> children = jsonObj.Children();
+#if DEBUG
+                /*foreach(JToken token in children)
+                {
+                    CrestronConsole.PrintLine(token.Values().ToString());
+                    foreach (var v in token.Values().First){
+                        CrestronConsole.PrintLine("Child Value: " + v.ToString());
+                    }
+                }*/
+                CrestronConsole.PrintLine("Children: " + jsonObj["result"].Children().ToString());
+                List<String> strList = new List<String>();
+                foreach(var token in jsonObj["result"].Children())
+                {
+                    strList.Add(token.ToString());
+                }
+                foreach (string str in strList)
+                {
+                    CrestronConsole.PrintLine("Value in result: " + str);
+                }
+#endif
+                JArray array = JArray.Parse(body);
+
+                foreach (JObject content in array.Children<JObject>())
+                {
+                    foreach (JProperty prop in content.Properties())
+                    {
+                        if (prop.Name.ToLower().Equals(desiredAttribute.ToLower()))
+                        {
+                            values += prop.Value;
+                        }
+                    }
+                }
+                return values;
             }
             catch (Exception ex)
             {
