@@ -1,0 +1,7 @@
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\bin\SimplSharpStringUtils.dll
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\bin\SimplSharpStringUtils.pdb
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\bin\SimplSharpCustomAttributesInterface.dll
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\bin\SimplSharpHelperInterface.dll
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\obj\Debug\ResolveAssemblyReference.cache
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\obj\Debug\SimplSharpStringUtils.dll
+C:\repos\SIMPSharpStringUtils\SIMPSharpStringUtils\obj\Debug\SimplSharpStringUtils.pdb
