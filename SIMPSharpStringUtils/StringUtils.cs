@@ -5,15 +5,20 @@ using Crestron.SimplSharp;                          				// For Basic SIMPL# Clas
 using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 
 namespace SimplSharpStringUtils
 {
     public class StringUtils
     {
-        //public Crestron.SimplSharp.IPAddress ipaddress { get; set; }
+        public Crestron.SimplSharp.IPAddress ipaddress { get; set; }
+
         public StringUtils()
         {
+#if DEBUG
+            CrestronConsole.PrintLine("New stringUtil instantiated.");
+#endif
         }
 
         public string ip(string iptmp)
@@ -62,47 +67,43 @@ namespace SimplSharpStringUtils
         {
             try
             {
-                string values = "";
-                //JObject jsonObj = JsonConvert.DeserializeObject(body) as JObject;
-                //JEnumerable<JToken> children = jsonObj.Children();
-#if DEBUG
-                /*foreach(JToken token in children)
-                {
-                    CrestronConsole.PrintLine(token.Values().ToString());
-                    foreach (var v in token.Values().First){
-                        CrestronConsole.PrintLine("Child Value: " + v.ToString());
-                    }
-                }*/
-                CrestronConsole.PrintLine("Children: " + jsonObj["result"].Children().ToString());
-                List<String> strList = new List<String>();
-                foreach(var token in jsonObj["result"].Children())
-                {
-                    strList.Add(token.ToString());
-                }
-                foreach (string str in strList)
-                {
-                    CrestronConsole.PrintLine("Value in result: " + str);
-                }
-#endif
-                JArray array = JArray.Parse(body);
+                JObject jsonObj = JsonConvert.DeserializeObject(body) as JObject;
+                JEnumerable<JToken> children = jsonObj.Children();
+                List<string> strList = new List<string>();
 
-                foreach (JObject content in array.Children<JObject>())
+                foreach (JObject content in children)
                 {
                     foreach (JProperty prop in content.Properties())
                     {
                         if (prop.Name.ToLower().Equals(desiredAttribute.ToLower()))
                         {
-                            values += prop.Value;
+                            strList.Add(prop.Value.ToString());
                         }
                     }
                 }
-                return values;
+#if DEBUG
+                CrestronConsole.PrintLine("Returning a list of " + strList.Count + " items:"); 
+#endif
+                return string.Join(";", strList.ToArray()); ;
             }
             catch (Exception ex)
             {
                 CrestronConsole.PrintLine(ex.Message);
             }
             return string.Empty;
+        }
+        public string GetMemberOfStringArray(String arrayToSearch, String delimiter, int member)
+        {
+            string[] strArr = arrayToSearch.Split(delimiter[0]);
+            try
+            {
+                return strArr[member];
+            }
+            catch (Exception ex)
+            {
+                CrestronConsole.PrintLine(ex.Message);
+                return string.Empty;
+            }
         }
 
     }
