@@ -92,6 +92,12 @@ namespace SimplSharpStringUtils
             }
             return string.Empty;
         }
+        public string getSonyResponseValue(String body, String desiredAttribute)
+        {
+            string result = JSONAttributes(body, "result");
+            string valToReturn = JSONAttributes(result, desiredAttribute);
+            return valToReturn;
+        }
         public string GetMemberOfStringArray(String arrayToSearch, String delimiter, int member)
         {
             string[] strArr = arrayToSearch.Split(delimiter[0]);
